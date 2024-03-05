@@ -1,0 +1,4 @@
+Django==5.0.3
+django-ckeditor==6.7.1
+django-widget-tweaks==1.5.0
+pillow==10.2.0
