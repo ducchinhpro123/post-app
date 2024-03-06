@@ -1,0 +1,7 @@
+<div>
+    <form method="post" action="{% url 'post:edit_user' %}">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Submit</button>
+    </form>
+</div>

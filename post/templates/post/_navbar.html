@@ -1,36 +1,90 @@
-<nav class="navbar navbar-expand-lg navbar-light bg-light">
-  <div class="container-fluid">
-    <a class="navbar-brand" href="/">Navbar</a>
-    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-      <span class="navbar-toggler-icon"></span>
+{% load static %}
+<link rel="stylesheet" href="{% static 'post/navbar-v2.css' %}">
+
+
+<nav class="navbar navbar-expand-lg gamanet-hedaer-nav">
+
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar-items-collpase"
+            aria-controls="navbar-items-collpase" aria-expanded="false" aria-label="Toggle navigation"><i
+            class="bi bi-arrows-expand"></i>
     </button>
-    <div class="collapse navbar-collapse" id="navbarSupportedContent">
-      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-        <li class="nav-item">
-          <a class="nav-link active" aria-current="page" href="#">Home</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="#">Link</a>
-        </li>
-        <li class="nav-item dropdown">
-          <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-            Dropdown
-          </a>
-          <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-            <li><a class="dropdown-item" href="#">Action</a></li>
-            <li><a class="dropdown-item" href="#">Another action</a></li>
-            <li><hr class="dropdown-divider"></li>
-            <li><a class="dropdown-item" href="#">Something else here</a></li>
-          </ul>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Disabled</a>
-        </li>
-      </ul>
-      <form class="d-flex">
-        <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
-        <button class="btn btn-outline-success" type="submit">Search</button>
-      </form>
+    <div id="navbar-items-collpase" class="collapse navbar-collapse gamenet-nav-collapse">
+        <ul id="user-admin-menu-id" class="navbar-nav mr-auto mb-2 mb-lg-0">
+            {% if request.resolver_match.url_name == "index" %}
+                <li class="user-admin-menu active"><a id="user-link-id" class="text-decoration-none"
+                                                      href="/" data-txt-key="userNavMenuHeader">Home</a>
+                </li>
+                <li class="user-admin-menu admin"><a id="admin-id" class="text-decoration-none"
+                                                     href="{% url 'post:your_posts' %}"
+                                                     style="font-size: 0.875rem;line-height: 1.25rem;"
+                                                     data-txt-key="adminNavMenuHeader">Your Posts</a></li>
+            {% else %}
+                <li class="user-admin-menu"><a id="user-link-id" class="text-decoration-none"
+                                               href="/" data-txt-key="userNavMenuHeader">Home</a>
+                </li>
+                 <li class="user-admin-menu admin active"><a id="admin-id" class="text-decoration-none"
+                                                 href="{% url 'post:your_posts' %}"
+                                                 style="font-size: 0.875rem;line-height: 1.25rem;"
+                                                 data-txt-key="adminNavMenuHeader">Your Posts</a></li>
+            {% endif %}
+
+
+        </ul>
+        <ul class="user-list m-0">
+            {% if user.is_authenticated %}
+
+                <li>
+                    <ul class="flex-row">
+                        <li><a href="javascript:void(0);" role="button" aria-expanded="false"
+                               data-bs-toggle="dropdown"><span id="profile-name-header"></span>
+                            {% if user.is_authenticated %}
+                                {% if user.user_profile.profile_picture %}
+
+                                    <img id="user-img-id"
+                                         class="me-3 ms-3"
+                                         src="{{ user.user_profile.profile_picture.url }}"
+                                         style="width: 2rem;"
+                                         width="32"
+                                         height="32" alt="{{ user.username }}"/>
+                                    <img
+                                            class="chevron" src="{% static 'post/icon_chevron-down.svg' %}"/></a>
+                                {% else %}
+                                    <img id="user-img-id"
+                                         class="me-3 ms-3"
+                                         src="{% static 'post/avatar-placeholder.png' %}"
+                                         style="width: 2rem;"
+                                         width="32"
+                                         height="32"/>
+                                    <img
+                                            class="chevron" src="{% static 'post/icon_chevron-down.svg' %}"/></a>
+
+                                {% endif %}
+                            {% endif %}
+                            <ul id="user-menu-id" class="dropdown-menu dropdown-menu-end"
+                                aria-labelledby="navbarDropdownMenuLink">
+                                <li><a id="profile-settings-link-id" class="text-decoration-none"
+                                       href="{% url 'post:profile' %}"><img
+                                        src="{% static 'post/icon_user.svg' %}"
+                                        style="margin-left: 0.75rem;margin-right: 0.5rem;margin-top: 0.5rem;margin-bottom: 0.5rem;"/><span
+                                        data-txt-key="profileSettingsHeader">Profile settings</span></a></li>
+                                <li><a id="logout-link-id" class="text-decoration-none" href="{% url 'post:logout' %}">
+                                    <img
+                                            src="{% static 'post/icon_log-out.svg' %}"
+                                            style="margin-left: 0.75rem;margin-right: 0.5rem;margin-top: 0.5rem;margin-bottom: 0.5rem;"/>
+                                    <span
+                                            data-txt-key="logoutHeader">Logout</span></a></li>
+                            </ul>
+                        </li>
+                    </ul>
+                </li>
+            {% else %}
+                <li><a id="login-link-id" class=" text-decoration-underline" href="{% url 'post:login' %}"
+                       data-txt-key="loginHeader">Login</a></li>
+                <li><a id="login-link-id" class="text-decoration-underline" href="{% url 'post:sign_up_to' %}"
+                       data-txt-key="loginHeader">Sign up</a></li>
+            {% endif %}
+
+        </ul>
     </div>
-  </div>
+    <a id="login-link-id" class="d-none" href="javascript:void(0);" data-txt-key="loginHeader">Login</a>
 </nav>

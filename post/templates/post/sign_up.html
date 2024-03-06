@@ -1,0 +1,35 @@
+{% extends 'post/_base.html' %}
+{% load static %}
+{% load widget_tweaks %}
+{% block title %}
+    Login Form
+{% endblock %}
+{% block content %}
+    <link rel="stylesheet" type="text/css" href="{% static 'post/login-form.css' %}">
+    <section class="w-75 mx-auto">
+        <div class="section-bg-overlay">
+            <div class="form-box">
+                <div class="form-value">
+                    <form method="post" class="px-2">
+                        {% csrf_token %}
+                        {% for field in form %}
+                            <div class="form-group">
+                                {{ field.label_tag }}
+                                {% render_field field class="form-control" %}
+                                {% if field.help_text %}
+                                    <small class="form-text text-muted">{{ field.help_text }}</small>
+                                {% endif %}
+                                {% if field.errors %}
+                                    <div class="invalid-feedback">
+                                        {{ field.errors|first }}
+                                    </div>
+                                {% endif %}
+                            </div>
+                        {% endfor %}
+                        <button type="submit" class="btn btn-primary">Submit</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+{% endblock %}
