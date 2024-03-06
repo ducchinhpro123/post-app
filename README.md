@@ -65,6 +65,16 @@ To install the project's dependencies, run the following command:
 pip install -r requirements.txt
 ```
 
+
+### Make Migrations
+
+Before running project, make sure to run the following command to make migrations:
+
+```bash
+python manage.py makemigrations
+python manage.py migrate
+```
+
 ### Running the Project
 
 To run the project, navigate to the `post_project` directory and run the following command:
